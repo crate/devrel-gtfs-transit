@@ -93,6 +93,22 @@ def create_tables():
 
         print("Created trips table if needed.")
 
+        # TODO make arrival_time and departure_time timestamps.
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS stop_times (
+                trip_id TEXT,
+                arrival_time TEXT,
+                departure_time TEXT,
+                stop_id TEXT,
+                stop_sequence SMALLINT,
+                pickup_type SMALLINT,
+                drop_off_type SMALLINT,
+                shape_dist_traveled DOUBLE PRECISION       
+            )   
+        """)
+
+        print("Created stop_times table if needed.")
+
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS config (
                 agency_id TEXT PRIMARY KEY,
