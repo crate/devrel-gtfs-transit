@@ -250,6 +250,12 @@ Finally, if your agency requires an API key to access realtime data, set the val
 
 Save your changes.
 
+The schedule of trips is stored in two tables in CrateDB: `trips` and `stop_times`.  You need to update this once daily by running:
+
+```bash
+python trip_schedule.py
+```
+
 Start gathering real time vehicle position data by running this command:
 
 ```bash
