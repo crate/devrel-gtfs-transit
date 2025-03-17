@@ -132,6 +132,12 @@ Next, populate the `routes` table:
 python dataloader.py data-files/wmata/routes.txt
 ```
 
+Then the stops table.  Here, `1` is the agency ID, and must match the spelling and capitalization of the agency ID in `agency.txt`:
+
+```bash
+python dataloader.py data/files/wmata/stops.txt 1
+```
+
 Finally, insert data into the `networks` table.  Here `WMATA` is the agency name, and must match the spelling and capitalization of the agency name in `agency.txt`:
 
 ```bash
