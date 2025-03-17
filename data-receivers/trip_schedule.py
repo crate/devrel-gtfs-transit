@@ -64,6 +64,21 @@ def insert_data(table_name, column_names, rows):
     finally:
         cursor.close()
 
+
+def process_zipped_file(z, file_name, table_name):
+    # TODO Can we do this without writing the file to the filesystem temporarily?
+    z.extract(file_name)
+    print(f"{agency_id}: Extracted {file_name}")
+
+    header_row, data_rows = load_csv_file(file_name)
+
+    insert_data(table_name, header_row, data_rows)
+    print(f"{agency_id}: Stored {table_name} data in database.")
+
+    os.remove(file_name)
+    print(f"{agency_id}: Removed temporary {file_name} file.")
+
+
 # Get the latest GTFS zip file.
 def download_gtfs_static_zip():
     print(f"{agency_id}: Downloading the static GTFS zip file.")
@@ -80,18 +95,7 @@ def download_gtfs_static_zip():
     z = zipfile.ZipFile(BytesIO(response.content))
     print(f"{agency_id}: Downloaded zip file.")
 
-    # TODO Can we do this without writing the file to the filesystem temporarily?
-    z.extract("trips.txt")
-    print(f"{agency_id}: Extracted trips.txt")
-
-    header_row, data_rows = load_csv_file("trips.txt")
-
-    insert_data("trips", header_row, data_rows)
-    print(f"{agency_id}: Stored trips data in database.")
-
-    os.remove("trips.txt")
-    print(f"{agency_id}: Removed temporary trips.txt file.")
-
+    process_zipped_file(z, "trips.txt", "trips")
     # TODO Need to get data from stop_times.txt
 
 
