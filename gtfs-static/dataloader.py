@@ -105,9 +105,9 @@ def create_tables():
                 stop_lon DOUBLE PRECISION,
                 zone_id TEXT,
                 location_type SMALLINT,
-                parent_station SMALLINT,
+                parent_station TEXT,
                 wheelchair_boarding SMALLINT,
-                level_id SMALLINT
+                level_id TEXT
             )
         """)
 
@@ -219,9 +219,34 @@ def load_network_data(file_name, agency_name):
 
     print("Inserted network data.")
 
-def load_stops_data(file_name):
-    print("TODO")
-    
+def load_stops_data(file_name, agency_id):
+    _, data_rows = load_csv_file(file_name)
+    stops = []
+
+    for row in data_rows:
+        stops.append((
+            agency_id, # agency_id TEXT,
+            row[0], # stop_id TEXT,
+            row[1], # stop_name TEXT,
+            row[2], # stop_desc TEXT,
+            (float(row[3]), float(row[4])), # stop_loc GEO_POINT,
+            float(row[3]), # stop_lat DOUBLE PRECISION,
+            float(row[4]), # stop_lon DOUBLE PRECISION,
+            row[5], # zone_id TEXT,
+            int(row[6]), # location_type SMALLINT,
+            row[7], # parent_station TEXT,
+            0 if row[8] == "" else int(row[8]), # wheelchair_boarding SMALLINT,
+            row[9] # level_id TEXT
+        ))
+
+    insert_data(
+        "stops",
+        ("agency_id", "stop_id", "stop_name", "stop_desc", "stop_loc", "stop_lat", "stop_lon", "zone_id", "location_type", "parent_station", "wheelchair_boarding", "level_id"),
+        stops
+    )
+
+    print("Inserted stops data.")
+
 
 if len(sys.argv) < 2:
     print("You need to pass in a file name and/or other parameters!")
@@ -231,8 +256,8 @@ elif len(sys.argv) == 2 and sys.argv[1].endswith("agency.txt"):
     load_agency_data(sys.argv[1])
 elif len(sys.argv) == 2 and sys.argv[1].endswith("routes.txt"):
     load_route_data(sys.argv[1])
-elif len(sys.argv) == 2 and sys.argv[1].endsWith("stops.txt"):
-    load_stops_data(sys.argv[1])
+elif len(sys.argv) == 3 and sys.argv[1].endswith("stops.txt"):
+    load_stops_data(sys.argv[1], sys.argv[2])
 elif len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
     load_config_data(sys.argv[1])
 elif len(sys.argv) == 3 and sys.argv[1].endswith(".geojson"):
