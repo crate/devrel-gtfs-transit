@@ -112,8 +112,6 @@ def get_upcoming_stops_for_trip(trip_id, current_stop_sequence, max_to_show):
     agency_id = os.environ["GTFS_AGENCY_ID"]
     results = { "results": [] }
 
-
-
     cursor = conn.cursor()
 
     try:
@@ -121,10 +119,15 @@ def get_upcoming_stops_for_trip(trip_id, current_stop_sequence, max_to_show):
         # TODO can we limit stop sequences to >= current_stop_sequence in the DB query?
         # TODO which would eliminate the for loop further down.
         cursor.execute(f"""
-            SELECT details['stop_time_update'] AS stop_times
-            FROM trip_updates 
-            WHERE details['trip']['trip_id'] = '{trip_id}'  
-            ORDER BY timestamp DESC 
+            SELECT 
+                details['stop_time_update'] AS stop_times
+            FROM 
+                trip_updates 
+            WHERE 
+                agency_id = '{agency_id}'  
+                AND details['trip']['trip_id'] = '{trip_id}'  
+            ORDER BY 
+                timestamp DESC 
             LIMIT 1
         """)
 
