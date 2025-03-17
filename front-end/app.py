@@ -29,6 +29,27 @@ def get_network_map():
 
     return results
 
+@app.route("/api/stopnames")
+def get_stop_names():
+    agency_id = os.environ["GTFS_AGENCY_ID"]
+    results = { "results": [] }
+
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute(f"SELECT stop_id, stop_name FROM stops WHERE agency_id='{agency_id}' ORDER BY stop_id ASC")
+
+        stopLookup = {}
+
+        for stop in cursor.fetchall():
+            stopLookup[stop[0]] = stop[1].split(",")[0]
+
+        results["results"].append(stopLookup)
+    finally:
+        cursor.close()
+
+    return results
+
 @app.route("/api/routeinfo")
 def get_route_colors():
     agency_id = os.environ["GTFS_AGENCY_ID"]

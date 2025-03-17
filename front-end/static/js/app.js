@@ -67,6 +67,7 @@ myMap.addLayer(vehicleMarkers);
 
 let config;
 let routeInfo;
+let stopNames;
 let interval;
 
 async function getConfiguration() {
@@ -81,6 +82,13 @@ async function getSystemInfo() {
   const responseObj = await response.json();
 
   return responseObj.results;
+}
+
+async function getStopNames() {
+  const response = await fetch('/api/stopnames');
+  const responseObj = await response.json();
+
+  return responseObj.results[0];
 }
 
 function getRefreshInterval() {
@@ -171,7 +179,7 @@ async function updateVehicleLocations() {
         popupContent = `${popupContent}<h3>Next Stops:</h3><ol></ol>`;
         for (const upcomingStop of upcomingStopsResults.results) {
           // TODO add times to the popup too...
-          popupContent = `${popupContent}<li>${upcomingStop.stopId}</li>`
+          popupContent = `${popupContent}<li>${stopNames[upcomingStop.stopId]}</li>`
         }
   
         popupContent = `${popupContent}</ol>`;
@@ -208,6 +216,8 @@ async function updateVehicleLocations() {
   myMap.setMinZoom(config.initialZoom);
   
   routeInfo = await getSystemInfo();
+  stopNames = await getStopNames();
+
   await drawRouteMap();
   updateVehicleLocations();
 
