@@ -77,6 +77,7 @@ def create_tables():
 
         print("Created trip updates table if needed.")
 
+        # TODO this needs an agency_id
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS trips (
                 route_id TEXT,
@@ -95,6 +96,7 @@ def create_tables():
 
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS stops (
+                agency_id TEXT,
                 stop_id TEXT,
                 stop_name TEXT,
                 stop_desc TEXT,
@@ -112,6 +114,7 @@ def create_tables():
         print("Created stops table if needed.")
 
         # TODO make arrival_time and departure_time timestamps.
+        # TODO this needs an agency_id
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS stop_times (
                 trip_id TEXT,
@@ -216,6 +219,10 @@ def load_network_data(file_name, agency_name):
 
     print("Inserted network data.")
 
+def load_stops_data(file_name):
+    print("TODO")
+    
+
 if len(sys.argv) < 2:
     print("You need to pass in a file name and/or other parameters!")
 elif len(sys.argv) == 2 and sys.argv[1] == "createtables":
@@ -224,6 +231,8 @@ elif len(sys.argv) == 2 and sys.argv[1].endswith("agency.txt"):
     load_agency_data(sys.argv[1])
 elif len(sys.argv) == 2 and sys.argv[1].endswith("routes.txt"):
     load_route_data(sys.argv[1])
+elif len(sys.argv) == 2 and sys.argv[1].endsWith("stops.txt"):
+    load_stops_data(sys.argv[1])
 elif len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
     load_config_data(sys.argv[1])
 elif len(sys.argv) == 3 and sys.argv[1].endswith(".geojson"):
