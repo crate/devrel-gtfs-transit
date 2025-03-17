@@ -82,7 +82,7 @@ def create_tables():
                 route_id TEXT,
                 service_id TEXT,
                 trip_id TEXT,
-                headsign TEXT,
+                trip_headsign TEXT,
                 direction_id SMALLINT,
                 block_id SMALLINT,
                 shape_id TEXT,
