@@ -49,6 +49,29 @@ def load_csv_file(file_name):
                         row[7],
                         row[8]
                     ))
+                elif file_name == "stop_times.txt":
+                    # We have to do some data type changes here.
+                    # 0 trip_id TEXT,
+                    # 1 arrival_time TEXT,
+                    # 2 departure_time TEXT,
+                    # 3 stop_id TEXT,
+                    # 4 stop_sequence SMALLINT,
+                    # 5 pickup_type SMALLINT,
+                    # 6 drop_off_type SMALLINT,
+                    # 7 shape_dist_traveled DOUBLE PRECISION   
+
+                    data_rows.append((
+                        row[0],
+                        row[1],
+                        row[2], # TODO make this a timestamp.
+                        row[3], # TODO make this a timestamp.
+                        int(row[4]),
+                        0 if row[5] == "" else int(row[5]),
+                        0 if row[6] == "" else int(row[6]),
+                        float(row[7])
+                    ))
+                else:
+                    print(f"Unknown file format {file_name}.")
 
     return (header_row, data_rows)
 
@@ -96,7 +119,7 @@ def download_gtfs_static_zip():
     print(f"{agency_id}: Downloaded zip file.")
 
     process_zipped_file(z, "trips.txt", "trips")
-    # TODO Need to get data from stop_times.txt
+    process_zipped_file(z, "stop_times.txt", "stop_times")
 
 
 download_gtfs_static_zip()
