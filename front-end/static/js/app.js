@@ -151,6 +151,7 @@ async function updateVehicleLocations() {
         tripId: vehicle.tripId,
         vehicleId: vehicle.vehicleId,
         line: vehicle.line,
+        destination: vehicle.destination,
         licensePlate: vehicle.licensePlate,
         currentStopSequence: vehicle.currentStopSequence
       }
@@ -161,7 +162,7 @@ async function updateVehicleLocations() {
         <h2>Loading data...</h2>
       `);
 
-      let popupContent = `<h2>${this.options.vehicle.line} ${this.options.vehicle.tripId}</h2>`;
+      let popupContent = `<h2>${this.options.vehicle.line} to ${this.options.vehicle.destination}</h2><p>${this.options.vehicle.tripId}</p>`;
 
       if (this.options.vehicle.currentStopSequence) {
         const upcomingStopsResponse = await fetch(`/api/upcomingstops/${this.options.vehicle.tripId}/${this.options.vehicle.currentStopSequence}/${config.upcomingStopsToShow}`);

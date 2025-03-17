@@ -63,10 +63,21 @@ def get_vehicle_positions():
 
     try:
         cursor.execute(f"""
-            SELECT timestamp, vehicle['trip']['trip_id'], vehicle['vehicle']['label'], 
-                   vehicle['trip']['route_id'], vehicle['position']['position'], vehicle['current_stop_sequence'] 
-            FROM vehicle_positions WHERE agency_id = '{agency_id}' 
-            AND timestamp = (SELECT max(timestamp) FROM vehicle_positions WHERE agency_id = '{agency_id}')
+            SELECT 
+                timestamp, 
+                vehicle['trip']['trip_id'], 
+                vehicle['vehicle']['label'], 
+                vehicle['trip']['route_id'], 
+                t.trip_headsign, 
+                vehicle['position']['position'], 
+                vehicle['current_stop_sequence'] 
+            FROM 
+                vehicle_positions v, 
+                trips t 
+            WHERE 
+                agency_id = '{agency_id}'
+                AND t.trip_id = vehicle['trip']['trip_id'] 
+                AND timestamp = (SELECT max(timestamp) FROM vehicle_positions WHERE agency_id = '1')
         """)
 
         for vehicle in cursor.fetchall():
@@ -75,9 +86,10 @@ def get_vehicle_positions():
                 "tripId": vehicle[1],
                 "vehicleId": vehicle[2],
                 "line": vehicle[3],
-                "latitude": vehicle[4][0],
-                "longitude": vehicle[4][1],
-                "currentStopSequence": vehicle[5]
+                "destination": vehicle[4],
+                "latitude": vehicle[5][0],
+                "longitude": vehicle[5][1],
+                "currentStopSequence": vehicle[6]
             }
 
             results["results"].append(result)
