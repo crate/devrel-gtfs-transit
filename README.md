@@ -102,12 +102,13 @@ Created routes table if needed.
 Created vehicle positions table if needed.
 Created trip updates table if needed.
 Created trips table if needed.
+Created stops table if needed.
 Created stop_times table if needed.
 Created config table if needed.
 Finished creating any necessary tables.
 ```
 
-Use the CrateDB console to verify that tables named `agencies`, `config`, `networks`, `routes`, `trips`, `stop_times`, `trip_updates` and `vehicle_positions` were created in the `doc` schema.
+Use the CrateDB console to verify that the above named tables were all created in the `doc` schema.
 
 ## Load the Static Data
 

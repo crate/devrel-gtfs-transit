@@ -93,6 +93,24 @@ def create_tables():
 
         print("Created trips table if needed.")
 
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS stops (
+                stop_id TEXT,
+                stop_name TEXT,
+                stop_desc TEXT,
+                stop_loc GEO_POINT,
+                stop_lat DOUBLE PRECISION,
+                stop_lon DOUBLE PRECISION,
+                zone_id TEXT,
+                location_type SMALLINT,
+                parent_station SMALLINT,
+                wheelchair_boarding SMALLINT,
+                level_id SMALLINT
+            )
+        """)
+
+        print("Created stops table if needed.")
+
         # TODO make arrival_time and departure_time timestamps.
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS stop_times (
