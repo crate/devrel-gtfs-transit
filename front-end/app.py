@@ -42,7 +42,7 @@ def get_stop_names():
         stopLookup = {}
 
         for stop in cursor.fetchall():
-            stopLookup[stop[0]] = stop[1].split(",")[0]
+            stopLookup[stop[0]] = stop[1].split(",")[0].removesuffix(" METRORAIL STATION")
 
         results["results"].append(stopLookup)
     finally:
