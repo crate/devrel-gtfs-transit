@@ -180,7 +180,10 @@ async function updateVehicleLocations() {
         for (const upcomingStop of upcomingStopsResults.results) {
           const nowTime = Math.floor(Date.now() / 1000);
           let stopTime = Math.round(upcomingStop.arrival.time ? (upcomingStop.arrival.time - nowTime) / 60 : 0);
-          popupContent = `${popupContent}<li>(${stopTime} mins) ${stopNames[upcomingStop.stopId]}</li>`
+
+          if (stopTime >= 0) {
+            popupContent = `${popupContent}<li>(${stopTime} min${stopTime > 1 ? 's': ''}) ${stopNames[upcomingStop.stopId]}</li>`
+          }
         }
   
         popupContent = `${popupContent}</ol>`;
