@@ -25,6 +25,7 @@ def load_csv_file(file_name):
             if (first_row):
                 first_row = False
                 header_row = row
+                header_row.insert(0, "agency_id")
             else:
                 if file_name == "trips.txt":
                     # We have to do some data type changes here.
@@ -39,6 +40,7 @@ def load_csv_file(file_name):
                     # 8 train_id TEXT
 
                     data_rows.append((
+                        agency_id,
                         row[0],
                         row[1],
                         row[2],
@@ -49,6 +51,7 @@ def load_csv_file(file_name):
                         row[7],
                         row[8]
                     ))
+                    
                 elif file_name == "stop_times.txt":
                     # We have to do some data type changes here.
                     # 0 trip_id TEXT,
@@ -61,6 +64,7 @@ def load_csv_file(file_name):
                     # 7 shape_dist_traveled DOUBLE PRECISION   
 
                     data_rows.append((
+                        agency_id,
                         row[0],
                         row[1],
                         row[2], # TODO make this a timestamp.
@@ -70,6 +74,7 @@ def load_csv_file(file_name):
                         0 if row[6] == "" else int(row[6]),
                         float(row[7])
                     ))
+
                 else:
                     print(f"Unknown file format {file_name}.")
 

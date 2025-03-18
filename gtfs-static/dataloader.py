@@ -77,9 +77,9 @@ def create_tables():
 
         print("Created trip updates table if needed.")
 
-        # TODO this needs an agency_id
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS trips (
+                agency_id TEXT,
                 route_id TEXT,
                 service_id TEXT,
                 trip_id TEXT,
@@ -114,9 +114,9 @@ def create_tables():
         print("Created stops table if needed.")
 
         # TODO make arrival_time and departure_time timestamps.
-        # TODO this needs an agency_id
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS stop_times (
+                agency_id TEXT,
                 trip_id TEXT,
                 arrival_time TEXT,
                 departure_time TEXT,
