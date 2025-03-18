@@ -96,9 +96,9 @@ def get_vehicle_positions():
                 vehicle_positions v, 
                 trips t 
             WHERE 
-                agency_id = '{agency_id}'
+                v.agency_id = '{agency_id}' 
                 AND t.trip_id = vehicle['trip']['trip_id'] 
-                AND timestamp = (SELECT max(timestamp) FROM vehicle_positions WHERE agency_id = '1')
+                AND timestamp = (SELECT max(timestamp) FROM vehicle_positions WHERE agency_id = '{agency_id}') 
         """)
 
         for vehicle in cursor.fetchall():
