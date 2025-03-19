@@ -183,18 +183,38 @@ async function updateVehicleLocations() {
         const upcomingStopsResponse = await fetch(`/api/upcomingstops/${this.options.vehicle.tripId}/${this.options.vehicle.currentStopSequence}/${config.upcomingStopsToShow}`);
         const upcomingStopsResults = await upcomingStopsResponse.json();
   
-        popupContent = `${popupContent}<h3>Stopping at:</h3><div><ol>`;
+        popupContent = `${popupContent}<h3>Stopping at:</h3>`;
+        const stopsToShow = [];
+
         for (const upcomingStop of upcomingStopsResults.results) {
           const nowTime = Math.floor(Date.now() / 1000);
           let stopTime = Math.round(upcomingStop.arrival.time ? (upcomingStop.arrival.time - nowTime) / 60 : 0);
 
           if (stopTime >= 0) {
-            popupContent = `${popupContent}<li>(${stopTime} min${stopTime > 1 ? 's': ''}) ${stopNames[upcomingStop.stopId]}</li>`
+            stopsToShow.push({
+              ...upcomingStop,
+              mins: stopTime
+            });
+
+            if (stopTime === 0) {
+              // This deals with a quirk where two stops are close together
+              // and after the trip leaves one, it can show as 0 mins along
+              // with the next station for a moment.
+              if (stopsToShow.length > 1) {
+                stopsToShow.shift();
+              }
+            }
           }
         }
   
-        popupContent = `${popupContent}</ol></div>`;
-  
+        // Another go at it...
+        popupContent = `${popupContent}
+        <table>
+          <tbody>
+            ${stopsToShow.map(stop => '<tr><td>' + stop.mins + ' min' + (stop.mins === 1 ? '' : 's') + '</td><td>' + stopNames[stop.stopId] + '</td></tr>').join('')}
+          </tbody>
+        </table>
+        `;
       }
 
       this.setPopupContent(popupContent);
