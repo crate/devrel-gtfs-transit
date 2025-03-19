@@ -171,16 +171,19 @@ async function updateVehicleLocations() {
         <h2>Loading data...</h2>
       `);
 
-      let popupContent = `<h2>${this.options.vehicle.line} to ${this.options.vehicle.destination}</h2><p>${this.options.vehicle.tripId}</p>`;
+      let cars = '';
+
       if (this.options.vehicle.cars && this.options.vehicle.cars.length > 0) {
-        popupContent = `${popupContent}<p>${this.options.vehicle.cars.length} cars.</p>`;
+        cars = `${this.options.vehicle.cars.length} car train. `;
       }
+
+      let popupContent = `<h2>${this.options.vehicle.line} to ${this.options.vehicle.destination}</h2><span class="popup-sub-header">${cars}(Trip ID: ${this.options.vehicle.tripId})</span><hr/>`;
 
       if (this.options.vehicle.currentStopSequence) {
         const upcomingStopsResponse = await fetch(`/api/upcomingstops/${this.options.vehicle.tripId}/${this.options.vehicle.currentStopSequence}/${config.upcomingStopsToShow}`);
         const upcomingStopsResults = await upcomingStopsResponse.json();
   
-        popupContent = `${popupContent}<h3>Next Stops:</h3><ol></ol>`;
+        popupContent = `${popupContent}<h3>Stopping at:</h3><div><ol>`;
         for (const upcomingStop of upcomingStopsResults.results) {
           const nowTime = Math.floor(Date.now() / 1000);
           let stopTime = Math.round(upcomingStop.arrival.time ? (upcomingStop.arrival.time - nowTime) / 60 : 0);
@@ -190,14 +193,16 @@ async function updateVehicleLocations() {
           }
         }
   
-        popupContent = `${popupContent}</ol>`;
+        popupContent = `${popupContent}</ol></div>`;
   
       }
 
       this.setPopupContent(popupContent);
     });
 
-    vehicleMarker.bindPopup('');
+    vehicleMarker.bindPopup('', {
+      maxWidth: 600
+    });
     vehicleMarkers.addLayer(vehicleMarker);
 
     if (openPopupId && openPopupId == vehicle.tripId) {
