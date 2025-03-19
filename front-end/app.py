@@ -91,7 +91,9 @@ def get_vehicle_positions():
                 vehicle['trip']['route_id'], 
                 t.trip_headsign, 
                 vehicle['position']['position'], 
-                vehicle['current_stop_sequence'] 
+                vehicle['current_stop_sequence'],
+                vehicle['vehicle'],
+                vehicle['vehicle']['cars']
             FROM 
                 vehicle_positions v, 
                 trips t 
@@ -111,7 +113,8 @@ def get_vehicle_positions():
                 "destination": vehicle[4],
                 "latitude": vehicle[5][0],
                 "longitude": vehicle[5][1],
-                "currentStopSequence": vehicle[6]
+                "currentStopSequence": vehicle[6],
+                "cars": vehicle[7]["cars"]
             }
 
             results["results"].append(result)

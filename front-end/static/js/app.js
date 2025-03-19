@@ -156,6 +156,7 @@ async function updateVehicleLocations() {
       fillColor: markerColor,
       fillOpacity: 1,
       vehicle: {
+        cars: vehicle.cars || [],
         tripId: vehicle.tripId,
         vehicleId: vehicle.vehicleId,
         line: vehicle.line,
@@ -171,6 +172,9 @@ async function updateVehicleLocations() {
       `);
 
       let popupContent = `<h2>${this.options.vehicle.line} to ${this.options.vehicle.destination}</h2><p>${this.options.vehicle.tripId}</p>`;
+      if (this.options.vehicle.cars.length > 0) {
+        popupContent = `${popupContent}<p>${this.options.vehicle.cars.length} cars.</p>`;
+      }
 
       if (this.options.vehicle.currentStopSequence) {
         const upcomingStopsResponse = await fetch(`/api/upcomingstops/${this.options.vehicle.tripId}/${this.options.vehicle.currentStopSequence}/${config.upcomingStopsToShow}`);

@@ -62,6 +62,19 @@ def update_vehicle_positions():
         timestamp = entity["vehicle"]["timestamp"]
         del entity["vehicle"]["timestamp"]
 
+        # See if we can get the cars that make up the vehicle - WMATA specific.
+        if "vehicle" in entity["vehicle"]:
+            if "license_plate" in entity["vehicle"]["vehicle"]:
+                license_plate_data = entity["vehicle"]["vehicle"]["license_plate"]
+                # For DC, license_plate_data looks like this:
+                # 8_7566-7567.7480-7481.7716-7717.7409-7408
+                # It's how many train cars (8) form up the train
+                # followed by the configuration of cars, 
+                # the number being the car fleet numbers.
+                license_plate_components = license_plate_data.replace('.', '_').replace('-', '_').split('_')
+                if (len(license_plate_components) > 0):
+                    entity["vehicle"]["vehicle"]["cars"] = license_plate_components[1:]
+
         vehicle_position_data.append((
             f"""{entity["id"]}-{timestamp}""",
             agency_id,
