@@ -207,7 +207,6 @@ async function updateVehicleLocations() {
           }
         }
   
-        // Another go at it...
         popupContent = `${popupContent}
         <table>
           <tbody>
