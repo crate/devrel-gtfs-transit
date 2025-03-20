@@ -278,7 +278,7 @@ Save your changes.
 The schedule of trips is stored in two tables in CrateDB: `trips` and `stop_times`.  You need to update this **once daily** by running:
 
 ```bash
-python trip_schedule.py
+python trip_schedule.py 1
 ```
 
 Start gathering real time vehicle position data continuously by running this command:
