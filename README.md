@@ -1,12 +1,26 @@
-# TODO Title
+# CrateDB GTFS / GTFS-RT Transit Data Demo
 
 ## Introduction
+
+This is a demo application that has a Python back end and JavaScript / Leaflet maps front end.  It uses GTFS ([General Transit Feed Specification](https://gtfs.org/)) and GTFS-RT (the extra [realtime feeds for GTFS](https://gtfs.org/documentation/realtime/reference/)) to store and analyze transit system route, trip, stop and vehicle movement data in [CrateDB](https://cratedb.com).
+
+GTFS and GRTFS-RT are standard ways of representing this type of data.  This means that, in theory, this project could be applicable to any transit system that adopts this approach.  However, there can be differences between transit agencies, so some aspects of the project may need adapting for that.  
+
+We have developed this demo using GTFS and GTFS-RT data from the [Washington Metropolitan Area Transit Authority](https://www.wmata.com/about/developers/) (WMATA), specifically for the DC Metro train system.  The design of the database schema allows for data from multiple agencies / transit systems to be stored as long as each agency has a unique agency ID.
+
+Here's a sped up demo of the front end running, showing train movements on the DC Metro system:
 
 TODO
 
 ## Prerequisites
 
-TODO
+To run this project you'll need to install the following software:
+
+* Python 3 ([download](https://www.python.org/downloads/)) - we've tested this project with Python 3.12.2 on macOS Sequoia.
+* Git command line tools ([download](https://git-scm.com/downloads)).
+* Your favorite code editor, to edit configuration files and browse/edit the code if you wish.  Visual Studio Code is great for this.
+* Access to a cloud or local CrateDB cluster (see below for details).
+* A WMATA API key.  These are free, and you can register for API access and get your key at the [WMATA developer portal](https://developer.wmata.com/).
 
 ## Getting the Code
 
