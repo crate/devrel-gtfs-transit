@@ -164,7 +164,7 @@ python dataloader.py geojson/wmata/wmata.geojson WMATA
 
 ## Start the Front End Flask Application
 
-TODO description.
+This project has a web front end and a [Flask](https://flask.palletsprojects.com/) application server.  The front end is written in vanilla JavaScript and uses the [Bulma](https://bulma.io/) framework for the majority of the styling. [Leaflet](https://leafletjs.com/) is used to render maps and handle map events.  The Flask application uses the [CrateDB Python driver](https://cratedb.com/docs/python/en/latest/index.html) to talk to the database.
 
 Before starting the front end Flask application, you'll need to create a virtual environment and configure it:
 
@@ -275,27 +275,27 @@ Finally, if your agency requires an API key to access realtime data, set the val
 
 Save your changes.
 
-The schedule of trips is stored in two tables in CrateDB: `trips` and `stop_times`.  You need to update this once daily by running:
+The schedule of trips is stored in two tables in CrateDB: `trips` and `stop_times`.  You need to update this **once daily** by running:
 
 ```bash
 python trip_schedule.py
 ```
 
-Start gathering real time vehicle position data by running this command:
+Start gathering real time vehicle position data continuously by running this command:
 
 ```bash
 python vehicle_positions.py
 ```
 
-Assuming that the Flask front end web application is running, you should now see vehicle movement details at `http://localhost:8000`.
-
-You can also start gathering real time trip update data by running:
+You should also start continuous gathering of real time trip update data by running:
 
 ```bash
 python trip_updates.py
 ```
 
 When you're finished with the real time data receivers, stop them with `Ctrl-C`.
+
+Assuming that the Flask front end web application is running, you should now see vehicle movement details at `http://localhost:8000`.  Clicking a vehicle should display a pop up with information about the trip that the vehicle is currently on: trip ID, next stops, time estimates etc.
 
 ## Work in Progress Notes Below
 
