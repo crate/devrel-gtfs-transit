@@ -10,7 +10,11 @@ We have developed this demo using GTFS and GTFS-RT data from the [Washington Met
 
 Here's a sped up demo of the front end running, showing train movements on the DC Metro system:
 
-TODO
+![Demo showing front end running](gtfs_demo_front_end_sped_up.gif)
+
+Individual trains can be tracked by clicking on them, which displays information about the train's current trip in a popup:
+
+![Demo showing details of a single train trip](gtfs_demo_front_end.png)
 
 ## Prerequisites
 
