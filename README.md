@@ -297,6 +297,10 @@ When you're finished with the real time data receivers, stop them with `Ctrl-C`.
 
 Assuming that the Flask front end web application is running, you should now see vehicle movement details at `http://localhost:8000`.  Clicking a vehicle should display a pop up with information about the trip that the vehicle is currently on: trip ID, next stops, time estimates etc.
 
+## Analyzing the Data
+
+Once the system's been running for a while, you might want to run some queries that analyze and aggregate data.  We've provided some examples in the [`example_queries.md`](example_queries.md) file.
+
 ## Work in Progress Notes Below
 
 Getting GeoJSON from GTFS:
